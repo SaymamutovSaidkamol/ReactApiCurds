@@ -1,0 +1,16 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+.container {
+  max-width: 1500px;
+  width: 100%;
+}
+
+/* global.css faylga yozing */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE va Edge */
+  scrollbar-width: none; /* Firefox */
+}
