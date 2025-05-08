@@ -1,13 +1,13 @@
 import axios from "axios";
 import React, { memo, useEffect, useState } from "react";
-import { CiHeart } from "react-icons/ci";
 import { FcLike } from "react-icons/fc";
 import { FaHeart } from "react-icons/fa";
+import Skelaton from "../Skelaton/Skelaton";
 
 const Content = ({ setLiked, like, page, filteredData, data, setData }) => {
-  // const [data, setData] = useState(null);
   const [skip, setSkip] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const fetchData = (append = false) => {
     axios
@@ -17,31 +17,32 @@ const Content = ({ setLiked, like, page, filteredData, data, setData }) => {
         console.log(res.data.recipes);
 
         if (newData.length === 0) {
-          setHasMore(false); // endi ko‘proq ma’lumot yo‘q
+          setHasMore(false); 
         }
         if (res.data.recipes.length < 8) {
           console.log("Button hidden");
-          setHasMore(false); // endi ko‘proq ma’lumot yo‘q
-
+          setHasMore(false); 
         }
 
-        // 👇 yangi ma’lumotlarni qo‘shamiz yoki almashtiramiz
         setData((prevData) => (append ? [...prevData, ...newData] : newData));
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
   useEffect(() => {
-    fetchData(); // sahifa yuklanganda 8 ta ma’lumot
+    fetchData();
   }, []);
 
   const handleSeeMore = () => {
     const newSkip = skip + 8;
-    setSkip(newSkip); // skipni yangilaymiz
+    setSkip(newSkip); 
     setTimeout(() => {
-      fetchData(true); // yangi ma’lumotlarni qo‘shamiz
+      fetchData(true); 
     }, 100);
   };
 
@@ -60,10 +61,25 @@ const Content = ({ setLiked, like, page, filteredData, data, setData }) => {
     localStorage.setItem("like", JSON.stringify(like));
   }, [like]);
 
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 2000);
+  }, []);
+
   const displayData = filteredData || data;
 
   return (
     <>
+      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {loading
+          ? Array.from({ length: 8 }).map((_, index) => (
+              <Skelaton key={index} />
+            ))
+          : displayData
+              ?.slice(0, 8)
+              .map((item, id) => (
+                <div key={id} className="w-[300px] ..."></div>
+              ))}
+      </div>
       <div className="w-[900px] mx-auto grid grid-cols-4 gap-[20px]  justify-center mt-28 container items-center justify-items-center max-[1400px]:w-[800px] max-[1300px]:grid-cols-3 max-[950px]:grid-cols-2 max-[650px]:grid-cols-1">
         {displayData && page === "Home"
           ? displayData.map((item, id) => (

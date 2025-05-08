@@ -14,3 +14,24 @@
   -ms-overflow-style: none; /* IE va Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .5;
+  }
+}
+
+.scelaton__animation{
+  background: linear-gradient(90deg, #eee, #c2c1c1, #eee);
+  background-size: 200%;
+  animation: skelaton 1s linear infinite;
+}
+
+@keyframes skelaton{
+  to{
+      background-position: 200%;
+  }
+}

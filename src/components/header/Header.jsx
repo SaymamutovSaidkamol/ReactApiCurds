@@ -16,7 +16,8 @@ const Header = ({ likedCount, setPage, setLiked, like }) => {
       })
       .catch((err) => {
         console.log(err);
-      });
+      }).finally(()=> {
+      })
   }, []);
 
   const handleLike = (id) => {
@@ -30,7 +31,6 @@ const Header = ({ likedCount, setPage, setLiked, like }) => {
 
   const [isDark, setIsDark] = useState(false);
 
-  // Brauzerdan oxirgi tema holatini o‘qib olish
   useEffect(() => {
     const theme = localStorage.getItem("dark");
     if (theme === "true") {
@@ -39,7 +39,6 @@ const Header = ({ likedCount, setPage, setLiked, like }) => {
     }
   }, []);
   
-  // Toggle qilish
   const handleTheme = () => {
     const newTheme = !isDark;
     setIsDark(newTheme);
@@ -49,6 +48,7 @@ const Header = ({ likedCount, setPage, setLiked, like }) => {
   
 
   return (
+    
     <div className="bg-[#d5d9e2] w-full mx-auto flex justify-around px-[10px] py-[10px] text-2xl fixed top-0 left-0 z-10 dark:bg-slate-700">
       <button onClick={() => setPage("Home")} className="cursor-pointer dark:text-white">
         Home
@@ -71,9 +71,9 @@ const Header = ({ likedCount, setPage, setLiked, like }) => {
           onClick={handleTheme}
         >
           {isDark ? (
-            <BsMoonStarsFill className="text-[35px] cursor-pointer" />
+            <IoSunnyOutline className="text-[35px] cursor-pointer dark:text-white" />
           ) : (
-            <IoSunnyOutline className="text-[35px] cursor-pointer" />
+            <BsMoonStarsFill className="text-[35px] cursor-pointer" />
           )}
         </span>
       </div>
